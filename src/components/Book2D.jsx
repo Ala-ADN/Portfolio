@@ -18,10 +18,19 @@ const COMPONENT_MAP = {
   Djo,
 };
 
-export default function Book2D() {
+export default function Book2D({ onPageChange, isAnimating }) {
   // Track the index of the LEFT page (right page is currentPageIndex + 1)
   // Start at -1 so first page appears on the right with void on left
   const [currentPageIndex, setCurrentPageIndex] = useState(-1);
+  const [pendingPageChange, setPendingPageChange] = useState(null);
+
+  // Apply pending page change after animation completes
+  useEffect(() => {
+    if (!isAnimating && pendingPageChange !== null) {
+      setCurrentPageIndex(pendingPageChange);
+      setPendingPageChange(null);
+    }
+  }, [isAnimating, pendingPageChange]);
 
   // Helper function to render a single page
   const renderPage = (index) => {
@@ -48,15 +57,19 @@ export default function Book2D() {
 
   const handlePrev = () => {
     // Move back by one page (the right page becomes the new left page)
-    if (currentPageIndex > -1) {
-      setCurrentPageIndex(currentPageIndex - 1);
+    if (currentPageIndex > -1 && !isAnimating) {
+      const newIndex = currentPageIndex - 1;
+      setPendingPageChange(newIndex);
+      onPageChange?.("prev");
     }
   };
 
   const handleNext = () => {
     // Move forward by one page (the current right page becomes the new left page)
-    if (currentPageIndex + 1 < PAGE_LIST.length) {
-      setCurrentPageIndex(currentPageIndex + 1);
+    if (currentPageIndex + 1 < PAGE_LIST.length && !isAnimating) {
+      const newIndex = currentPageIndex + 1;
+      setPendingPageChange(newIndex);
+      onPageChange?.("next");
     }
   };
 
@@ -71,7 +84,7 @@ export default function Book2D() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentPageIndex]);
+  }, [currentPageIndex, isAnimating]);
 
   return (
     <div className="book-container">

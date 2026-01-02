@@ -20,23 +20,46 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
-.book-container {
-  /* width: var(--viewport-width);
-  height: var(--viewport-height); */
-  background: #1a1a1a;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+.app-container {
   position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.book-3d-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.book-3d-container canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.book-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .page-spread {
   display: flex;
   width: var(--canvas-width);
   height: var(--canvas-height);
+  pointer-events: auto;
 }
 
 .page {
