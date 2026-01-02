@@ -7,12 +7,23 @@ const BookModel = forwardRef(({ onLoad, onAnimationComplete }, ref) => {
   const groupRef = useRef();
   const mixerRef = useRef();
   const actionsRef = useRef({});
-  const { scene, animations } = useGLTF("/models/book bones.glb");
+  const cameraRef = useRef();
+  const { scene, animations, cameras } = useGLTF("/models/book bones.glb");
 
   useEffect(() => {
     if (scene && animations.length > 0 && !mixerRef.current) {
       console.log("Book model loaded");
-      console.log("Available animations:", animations.map((a) => a.name));
+      console.log(
+        "Available animations:",
+        animations.map((a) => a.name)
+      );
+
+      // Find camera in the scene
+      const camera = cameras[0];
+      if (camera) {
+        cameraRef.current = camera;
+        console.log("Camera found:", camera);
+      }
 
       // Create animation mixer
       mixerRef.current = new THREE.AnimationMixer(scene);
@@ -25,9 +36,14 @@ const BookModel = forwardRef(({ onLoad, onAnimationComplete }, ref) => {
         actionsRef.current[clip.name] = action;
       });
 
-      onLoad?.({ scene, animations, actions: actionsRef.current });
+      onLoad?.({
+        scene,
+        animations,
+        actions: actionsRef.current,
+        camera: cameraRef.current,
+      });
     }
-  }, [scene, animations]);
+  }, [scene, animations, cameras]);
 
   // Expose playAnimation method
   useImperativeHandle(ref, () => ({
@@ -35,7 +51,7 @@ const BookModel = forwardRef(({ onLoad, onAnimationComplete }, ref) => {
       if (direction === "next") {
         const animationName = "ArmatureAction.001";
         const action = actionsRef.current[animationName];
-        
+
         if (action) {
           console.log("Book3D: Playing animation:", animationName);
           action.reset();
@@ -67,7 +83,7 @@ const BookModel = forwardRef(({ onLoad, onAnimationComplete }, ref) => {
   });
 
   return (
-    <primitive ref={groupRef} object={scene} scale={3} position={[0, 0, 0]} />
+    <primitive ref={groupRef} object={scene} scale={0.6} position={[0, 0, 0]} />
   );
 });
 
@@ -76,6 +92,7 @@ BookModel.displayName = "BookModel";
 const Book3D = forwardRef(({ onModelLoad, visible }, ref) => {
   const modelRef = useRef();
   const onAnimationCompleteRef = useRef();
+  const glbCameraRef = useRef();
 
   useImperativeHandle(ref, () => ({
     playAnimation: (direction, onComplete) => {
@@ -88,6 +105,13 @@ const Book3D = forwardRef(({ onModelLoad, visible }, ref) => {
     onAnimationCompleteRef.current?.();
   };
 
+  const handleModelLoad = (data) => {
+    if (data.camera) {
+      glbCameraRef.current = data.camera;
+    }
+    onModelLoad?.(data);
+  };
+
   return (
     <div
       className="book-3d-container"
@@ -97,18 +121,10 @@ const Book3D = forwardRef(({ onModelLoad, visible }, ref) => {
         transition: "opacity 0.2s ease",
       }}
     >
-      <Canvas>
-        <PerspectiveCamera makeDefault position={[0, 1, 0]} fov={42.15} />
-        <OrbitControls
-          target={[0, 0, 0]}
-          enableDamping
-          dampingFactor={0.05}
-          minDistance={10}
-          maxDistance={100}
-          enableRotate={false}
-          enableZoom={false}
-          enablePan={false}
-        />
+      <Canvas camera={{ fov: 17.5 }}>
+        {glbCameraRef.current && (
+          <primitive object={glbCameraRef.current} makeDefault />
+        )}
 
         {/* Lighting */}
         <ambientLight intensity={0.5} />
@@ -118,7 +134,7 @@ const Book3D = forwardRef(({ onModelLoad, visible }, ref) => {
         {/* Book Model */}
         <BookModel
           ref={modelRef}
-          onLoad={onModelLoad}
+          onLoad={handleModelLoad}
           onAnimationComplete={handleAnimationComplete}
         />
       </Canvas>
