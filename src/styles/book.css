@@ -1,0 +1,559 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Crimson Text", serif;
+  background: #2a2a2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-container {
+  /* width: var(--viewport-width);
+  height: var(--viewport-height); */
+  background: #1a1a1a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-spread {
+  display: flex;
+  width: var(--canvas-width);
+  height: var(--canvas-height);
+}
+
+.page {
+  width: var(--page-width);
+  height: var(--page-height);
+  padding: var(--page-padding);
+  font-size: 21px;
+  line-height: 1.7;
+  color: #1a1a1a;
+  overflow: hidden;
+}
+
+.page-left {
+  border-right: 1px solid #d4d4c4;
+  background: #f5f5dc;
+}
+
+.page-right {
+  border-left: 1px solid #d4d4c4;
+  background: #f5f5dc;
+}
+
+.page-gap {
+  width: var(--page-gap);
+  background: linear-gradient(to right, #d0d0c0 0%, #e5e5d5 50%, #d0d0c0 100%);
+  box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.1),
+    inset -2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.page h1 {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 45px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.page p {
+  text-align: justify;
+  font-size: 20 px;
+  text-indent: 3em;
+  margin-bottom: 1em;
+  hyphens: auto;
+}
+
+.page p:first-of-type {
+  text-indent: 0;
+}
+
+/* Void pages - the absence of a page, completely transparent */
+.page-void {
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+}
+
+/* ============================================
+   PAGE TYPE STYLES
+   ============================================ */
+
+/* Preface/Intro Pages - Classic book style */
+.page-type-preface {
+  background: #f5f5dc;
+  font-family: "Crimson Text", serif;
+}
+
+.page-type-preface h1 {
+  text-align: center;
+  color: #8b4513;
+}
+
+/* Project Pages - Modern, tech-focused */
+.page-type-project {
+  background: #e8f4f8;
+  font-family: "Inter", sans-serif;
+}
+
+.page-type-project h1 {
+  text-align: left;
+  color: #0066cc;
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-transform: none;
+}
+
+.page-type-project p {
+  text-indent: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Hackathon Pages - Energetic, achievement-focused */
+.page-type-hackathon {
+  background: #fff3e0;
+  font-family: "Inter", sans-serif;
+}
+
+.page-type-hackathon h1 {
+  text-align: left;
+  color: #ff6f00;
+  font-size: 28px;
+  margin-bottom: 15px;
+  text-transform: none;
+}
+
+.page-type-hackathon p {
+  text-indent: 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Education Pages - Academic, structured */
+.page-type-education {
+  background: #f3e5f5;
+  font-family: "Inter", sans-serif;
+}
+
+.page-type-education h1 {
+  text-align: left;
+  color: #6a1b9a;
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-transform: none;
+}
+
+.page-type-education p {
+  text-indent: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Experience Pages - Professional, clean */
+.page-type-experience {
+  background: #e8f5e9;
+  font-family: "Inter", sans-serif;
+}
+
+.page-type-experience h1 {
+  text-align: left;
+  color: #2e7d32;
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-transform: none;
+}
+
+.page-type-experience p {
+  text-indent: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* About Pages - Personal, warm */
+.page-type-about {
+  background: #fce4ec;
+  font-family: "Crimson Text", serif;
+}
+
+.page-type-about h1 {
+  text-align: center;
+  color: #c2185b;
+}
+
+/* Skills Pages - Grid-focused, organized */
+.page-type-skills {
+  background: #e3f2fd;
+  font-family: "Inter", sans-serif;
+}
+
+.page-type-skills h1 {
+  text-align: center;
+  color: #1565c0;
+  font-size: 36px;
+  margin-bottom: 25px;
+}
+
+.page-type-skills p {
+  text-indent: 0;
+  font-size: 16px;
+}
+
+/* Generic Pages - Flexible default */
+.page-type-generic {
+  background: #f5f5dc;
+  font-family: "Crimson Text", serif;
+}
+
+.page-type-generic h1 {
+  text-align: left;
+  color: #333333;
+}
+
+/* ============================================
+   LAYOUT-SPECIFIC STYLES
+   ============================================ */
+
+/* Project Layout */
+.layout-project {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.project-year {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.project-tech h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #0066cc;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.tech-list li {
+  background: rgba(0, 102, 204, 0.1);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.project-links {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.project-links a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.project-links a:hover {
+  border-bottom-color: #0066cc;
+}
+
+/* Timeline Layout */
+.layout-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.timeline-entry {
+  border-left: 3px solid currentColor;
+  padding-left: 15px;
+}
+
+.timeline-date {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
+
+.timeline-role,
+.timeline-company,
+.timeline-institution {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.timeline-description {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.timeline-achievements {
+  list-style: none;
+  padding-left: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.timeline-achievements li {
+  position: relative;
+  padding-left: 15px;
+  margin-bottom: 4px;
+}
+
+.timeline-achievements li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+}
+
+/* Hackathon Layout */
+.layout-hackathon {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hackathon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.hackathon-event {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ff6f00;
+}
+
+.hackathon-date {
+  font-size: 13px;
+  color: #666;
+}
+
+.hackathon-award {
+  background: rgba(255, 111, 0, 0.1);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #ff6f00;
+  display: inline-block;
+}
+
+.hackathon-tech,
+.hackathon-team {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.hackathon-links {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.hackathon-links a {
+  color: #ff6f00;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.hackathon-links a:hover {
+  border-bottom-color: #ff6f00;
+}
+
+/* Skills Layout */
+.layout-skills {
+  display: flex;
+  flex-direction: column;
+}
+
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skills-category-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1565c0;
+}
+
+.skills-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.skill-item {
+  background: rgba(21, 101, 192, 0.08);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-proficiency {
+  font-size: 11px;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+/* About Layout */
+.layout-about {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-bio p {
+  text-align: justify;
+  text-indent: 0;
+  margin-bottom: 15px;
+}
+
+.about-interests h3,
+.about-contact h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #c2185b;
+}
+
+.about-interests ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-interests li {
+  background: rgba(194, 24, 91, 0.1);
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.contact-info a {
+  color: #c2185b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Generic Layout */
+.layout-generic {
+  display: flex;
+  flex-direction: column;
+}
+
+.generic-content p {
+  text-align: justify;
+  text-indent: 3em;
+  margin-bottom: 1em;
+}
+
+.generic-content p:first-of-type {
+  text-indent: 0;
+}
+
+.book-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.book-controls button {
+  padding: 10px 20px;
+  background: #f5f5dc;
+  border: 2px solid #1a1a1a;
+  color: #1a1a1a;
+  font-family: "Crimson Text", serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.book-controls button:hover:not(:disabled) {
+  background: #1a1a1a;
+  color: #f5f5dc;
+}
+
+.book-controls button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

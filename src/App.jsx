@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import Book2D from "./components/Book2D";
+import "./styles/book.css";
+import { BOOK } from "./utils/constants";
 
 function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    // Set CSS custom properties from constants
+    const root = document.documentElement;
+    root.style.setProperty("--viewport-width", `${BOOK.VIEWPORT.width}px`);
+    root.style.setProperty("--viewport-height", `${BOOK.VIEWPORT.height}px`);
+    root.style.setProperty("--page-width", `${BOOK.PAGE.width}px`);
+    root.style.setProperty("--page-height", `${BOOK.PAGE.height}px`);
+    root.style.setProperty("--page-padding", `${BOOK.PAGE.padding}px`);
+    root.style.setProperty("--page-gap", `${BOOK.GAP}px`);
+    root.style.setProperty("--canvas-width", `${BOOK.CANVAS_WIDTH}px`);
+    root.style.setProperty("--canvas-height", `${BOOK.CANVAS_HEIGHT}px`);
+  }, []);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return <Book2D />;
 }
 
-export default App
+export default App;
