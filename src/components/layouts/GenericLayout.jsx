@@ -1,16 +1,18 @@
 /**
  * GenericLayout - Flexible layout for custom content
- * Renders children or data content flexibly
+ * Renders children or title/content directly
  */
-export default function GenericLayout({ data = {}, children }) {
-  const { title = null, content = null } = data;
-
+export default function GenericLayout({
+  title = null,
+  content = null,
+  children,
+}) {
   // If children provided, render them
   if (children) {
     return <div className="layout-generic">{children}</div>;
   }
 
-  // Otherwise render from data
+  // Otherwise render from props
   return (
     <div className="layout-generic">
       {title && <h1>{title}</h1>}
